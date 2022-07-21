@@ -18,16 +18,20 @@ function find(
   return Student.find(query, {}, options);
 }
 
+function showAll() {
+  return Student.find();
+}
+
 function update(
   query: FilterQuery<StudentDocument>,
   update: UpdateQuery<StudentDocument>,
   option?: QueryOptions
 ) {
-  return Student.findOneAndUpdate(query, update, option);
+  return Student.updateOne(query, update, option);
 }
 
 function deleteStudent(query: FilterQuery<StudentDocument>) {
   return Student.findOneAndDelete(query);
 }
 
-export { create, update, find, deleteStudent };
+export { create, update, find, deleteStudent, showAll };

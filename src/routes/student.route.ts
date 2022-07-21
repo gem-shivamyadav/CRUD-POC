@@ -5,6 +5,7 @@ import {
   deleteStudent,
   find,
   update,
+  showAll,
 } from "../services/student.service";
 
 const router = express.Router();
@@ -23,6 +24,15 @@ router.post("/api/create", async (req: Request, res: Response) => {
     return res.json({ user: data });
   } catch (error) {
     return res.status(400).json({ message: error });
+  }
+});
+
+router.get("/api/show", async (req: Request, res: Response) => {
+  try {
+    const data = await showAll();
+    return res.json({ user: data });
+  } catch (error) {
+    return res.json({ message: error });
   }
 });
 
