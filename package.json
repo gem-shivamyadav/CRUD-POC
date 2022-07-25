@@ -8,7 +8,9 @@
     "main": "index.js",
     "scripts": {
         "start": "ts-node-dev --no-notify --respawn src/server.ts",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "postinstall": "tsc",
+        "deploy": "git add . && git commit -m Heroku && git push heroku master"
     },
     "keywords": [],
     "author": "",
