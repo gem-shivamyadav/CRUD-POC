@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import {
   findStudentController,
   createStudentController,
@@ -11,6 +11,11 @@ import {
 import { authorize } from "../middlewares/auth.middleware";
 
 const router = express.Router();
+
+// Test
+router.get("/", (req: Request, res: Response) => {
+  return res.json({ message: "Hii" });
+});
 
 // Create Student
 router.post("/api/create", createStudentController);
