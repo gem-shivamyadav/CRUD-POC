@@ -1,11 +1,14 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import {
   findStudentController,
   createStudentController,
   showStudentController,
   updateStudentController,
   deleteStudentController,
+  loginStudentController,
+  signupStudentController,
 } from "../controllers/student.controller";
+import { authorize } from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
@@ -13,15 +16,23 @@ const router = express.Router();
 router.post("/api/create", createStudentController);
 
 // Show Students
-router.get("/api/show", showStudentController);
+router.route("/api/show-all").get(authorize(["show"]), showStudentController);
+
+// Login Student
+router.route("/api/login").get(loginStudentController);
+
+// SignUp Student
+router.route("/api/signup").post(signupStudentController);
 
 // Find Student
-router.get("/api/find", findStudentController);
+router.route("/api/me").get(authorize(["find"]), findStudentController);
 
 // Update Student
-router.put("/api/update", updateStudentController);
+router.route("/api/update").put(authorize(["update"]), updateStudentController);
 
 // Delete Student
-router.delete("/api/delete", deleteStudentController);
+router
+  .route("/api/delete")
+  .delete(authorize(["delete"]), deleteStudentController);
 
 export { router as studentRouter };
