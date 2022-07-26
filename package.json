@@ -6,8 +6,19 @@
         "node": "16.14.2"
     },
     "main": "index.js",
+    "compilerOptions": {
+        "include": [
+            "src/**/*.ts",
+            "src/*.ts"
+        ],
+        "exclude": [
+            "node_modules",
+            ".env"
+        ]
+    },
     "scripts": {
-        "start": "ts-node-dev --no-notify --respawn src/server.ts",
+        "start": "ts-node src/server.ts",
+        "dev": "nodemon -x ts-node src/server.ts",
         "test": "echo \"Error: no test specified\" && exit 1",
         "postinstall": "tsc",
         "deploy": "git add . && git commit -m Heroku && git push heroku master"
