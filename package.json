@@ -6,16 +6,6 @@
         "node": "16.14.2"
     },
     "main": "index.js",
-    "compilerOptions": {
-        "include": [
-            "src/**/*.ts",
-            "src/*.ts"
-        ],
-        "exclude": [
-            "node_modules",
-            ".env"
-        ]
-    },
     "scripts": {
         "start": "ts-node src/server.ts",
         "dev": "nodemon -x ts-node src/server.ts",
