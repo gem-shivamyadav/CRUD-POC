@@ -3,11 +3,13 @@ import { json } from "body-parser";
 import connectMongo from "./config/db.config";
 import { studentRouter } from "./routes/student.route";
 import { generateToken } from "./utils/jwt.util";
+import { emailRouter } from "./routes/email.route";
 
 const app = express();
 app.use(json());
 app.use(express.urlencoded());
 app.use(studentRouter);
+app.use(emailRouter);
 
 const host = process.env.HOST || "localhost";
 const port = process.env.PORT || 8888;
