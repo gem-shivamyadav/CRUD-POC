@@ -1,4 +1,5 @@
 import sgMail, { MailDataRequired } from "@sendgrid/mail";
+import "dotenv/config";
 
 const apiKey = process.env.SENDGRID_KEY;
 
