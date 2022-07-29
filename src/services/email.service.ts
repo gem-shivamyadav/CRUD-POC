@@ -1,9 +1,8 @@
 import sgMail, { MailDataRequired } from "@sendgrid/mail";
 
-const apiKey =
-  "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";
+const apiKey = process.env.SENDGRID_KEY;
 
-sgMail.setApiKey(apiKey);
+sgMail.setApiKey(apiKey!);
 
 const sendEmailService = (message: MailDataRequired) => {
   return sgMail.send(message);
