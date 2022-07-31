@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { findCredentials, find } from "../services/student.service";
 import { validateToken } from "../utils/jwt.util";
 
 export const authorize = (allowedAccessTypes: string[]) => {
@@ -25,7 +26,23 @@ export const authorize = (allowedAccessTypes: string[]) => {
     } catch (error) {
       res
         .status(401)
-        .json({ message: "UnAuthorized! Invalid Token", error: error });
+        .json({ message: "Unauthorized! Invalid Token", error: error });
     }
   };
 };
+
+export const checkIfAlreadyExist = async (req: Request, res: Response, next: NextFunction) => {
+  const {username} = req.body;
+  const exist = await findCredentials(username);
+  console.log("exist", exist);
+  if(exist) return res.status(409).json({status: 409, message: "error", data: "Username already exist"})
+  else return next();
+}
+
+export const checkIfDetailsAlreadyExist = async (req: Request, res: Response, next: NextFunction) => {
+  const username = res.locals.username;
+  const exist = await find(username);
+  console.log("exist", exist);
+  if(exist?.details) return res.status(409).json({status: 409, message: "error", data: "Student details already exist"})
+  else return next();
+}

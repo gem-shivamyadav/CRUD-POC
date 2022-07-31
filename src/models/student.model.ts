@@ -14,14 +14,12 @@ export interface StudentDocument extends Student, Document {}
 const studentSchema = new Schema<Student>({
   first_name: {
     type: String,
-    required: true,
   },
   last_name: {
     type: String,
   },
   age: {
     type: Number,
-    required: true,
   },
   gender: {
     type: String,
@@ -30,7 +28,6 @@ const studentSchema = new Schema<Student>({
   subjects: [
     {
       type: String,
-      required: true,
     },
   ],
 });

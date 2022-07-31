@@ -14,6 +14,6 @@ export const sendEmailController = async (req: Request, res: Response) => {
     await sendEmailService(message);
     res.send({ message: "Email sent successfully!" });
   } catch (error) {
-    res.status(402).send({ message: "Operation failed!" });
+    res.status(402).send({ message: "Operation failed!", error: error });
   }
 };

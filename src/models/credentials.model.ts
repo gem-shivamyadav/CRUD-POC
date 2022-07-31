@@ -4,6 +4,7 @@ interface Credentials {
   username: string;
   email: string;
   password: string;
+  details: {};
 }
 
 export interface CredentialsDocument extends Credentials, Document {}
@@ -20,6 +21,11 @@ export const credentials = new Schema<Credentials>({
   password: {
     type: String,
     required: true,
+    select: false,
+  },
+  details: {
+    type: Schema.Types.ObjectId,
+    ref: "student",
   },
 });
 

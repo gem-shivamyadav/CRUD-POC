@@ -8,16 +8,39 @@ import Credential, { CredentialsDocument } from "../models/credentials.model";
 import bcrypt from "bcryptjs";
 import Student, { StudentDocument } from "../models/student.model";
 
-function create(data: DocumentDefinition<StudentDocument>) {
-  return Student.create(data);
+async function create(
+  data: DocumentDefinition<StudentDocument>,
+  username: string
+) {
+  const student = new Student(data);
+  await student.save().then(async (s) => {
+    const credential = await Credential.findOne({ username: username });
+    credential!.details = s._id;
+    await credential!.save();
+    return credential;
+  });
+  return student;
 }
 
-function find(
-  query: FilterQuery<StudentDocument>,
-  options: QueryOptions = { lean: true }
-) {
-  return Student.find(query, {}, options);
+function findCredentials(username: string) {
+  return Credential.findOne({username: username})
 }
+
+function find(username: string) {
+  return Credential.findOne({ username: username }).populate({
+    path: "details",
+  });
+}
+
+// async function findAndSaveDetails(
+//   query: FilterQuery<StudentDocument>,
+//   detailsId: string
+// ) {
+//   const credentials = await Credential.findOne(query);
+//   await credentials?.save().then(async (c) => {
+//     c.details = detailsId;
+//   });
+// }
 
 function showAll() {
   return Student.find();
@@ -30,7 +53,7 @@ async function saveCredentials(data: DocumentDefinition<CredentialsDocument>) {
 }
 
 async function checkUsernamePassword(username: string, password: string) {
-  const userCredential = await Credential.findOne({ username: username });
+  const userCredential = await Credential.findOne({ username: username }).select('+password');
   if (userCredential) {
     const validPassword = await bcrypt.compare(
       password,
@@ -43,9 +66,8 @@ async function checkUsernamePassword(username: string, password: string) {
 function update(
   query: FilterQuery<StudentDocument>,
   update: UpdateQuery<StudentDocument>,
-  option?: QueryOptions
 ) {
-  return Student.updateOne(query, update, option);
+  return Student.updateOne(query, update);
 }
 
 function deleteStudent(query: FilterQuery<StudentDocument>) {
@@ -60,4 +82,5 @@ export {
   showAll,
   saveCredentials,
   checkUsernamePassword,
+  findCredentials
 };

@@ -8,7 +8,7 @@ interface TokenPayload {
 export function generateToken(username: string) {
   const payload: TokenPayload = {
     username: username,
-    accessTypes: ["find", "update", "delete", "show"],
+    accessTypes: ["find", "update", "delete", "show", "register"],
   };
 
   // reading secret key value

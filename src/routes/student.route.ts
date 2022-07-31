@@ -8,7 +8,15 @@ import {
   loginStudentController,
   signupStudentController,
 } from "../controllers/student.controller";
-import { authorize } from "../middlewares/auth.middleware";
+import {
+  authorize,
+  checkIfAlreadyExist,
+  checkIfDetailsAlreadyExist,
+} from "../middlewares/auth.middleware";
+import {
+  studentDetailsValidator,
+  usernamePasswordValidator,
+} from "../middlewares/validator.middleware";
 
 const router = express.Router();
 
@@ -17,23 +25,39 @@ router.get("/", (req: Request, res: Response) => {
   return res.json({ message: "Hii" });
 });
 
-// Create Student
-router.post("/api/create", createStudentController);
-
 // Show Students
 router.route("/api/show-all").get(authorize(["show"]), showStudentController);
 
 // Login Student
-router.route("/api/login").get(loginStudentController);
+router
+  .route("/api/login")
+  .get(usernamePasswordValidator, loginStudentController);
 
 // SignUp Student
-router.route("/api/signup").post(signupStudentController);
+router
+  .route("/api/signup")
+  .post(
+    usernamePasswordValidator,
+    checkIfAlreadyExist,
+    signupStudentController
+  );
+
+// Register Student
+router.post(
+  "/api/register",
+  authorize(["register"]),
+  studentDetailsValidator,
+  checkIfDetailsAlreadyExist,
+  createStudentController
+);
 
 // Find Student
 router.route("/api/me").get(authorize(["find"]), findStudentController);
 
 // Update Student
-router.route("/api/update").put(authorize(["update"]), updateStudentController);
+router
+  .route("/api/update")
+  .put(authorize(["update"]), studentDetailsValidator, updateStudentController);
 
 // Delete Student
 router
