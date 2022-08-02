@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import {
   findStudentController,
   createStudentController,
-  showStudentController,
   updateStudentController,
   deleteStudentController,
   loginStudentController,
