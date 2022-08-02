@@ -13,10 +13,6 @@ app.use(emailRouter);
 const host = process.env.HOST || "localhost";
 const port = process.env.PORT || 8888;
 
-// if (process.env.NODE_ENV !== "production") {
-//   console.log("JWT", generateToken());
-// }
-
 connectMongo();
 
 app.listen(port, () => {
