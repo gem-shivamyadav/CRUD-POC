@@ -13,6 +13,8 @@ export const credentials = new Schema<Credentials>({
   username: {
     type: String,
     required: true,
+    min: [8, "too short"],
+    max: [20, "too long"],
   },
   email: {
     type: String,
@@ -22,6 +24,7 @@ export const credentials = new Schema<Credentials>({
     type: String,
     required: true,
     select: false,
+    min: [8, "too short"],
   },
   details: {
     type: Schema.Types.ObjectId,

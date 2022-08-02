@@ -1,9 +1,4 @@
-import {
-  DocumentDefinition,
-  FilterQuery,
-  UpdateQuery,
-  QueryOptions,
-} from "mongoose";
+import { DocumentDefinition, FilterQuery, UpdateQuery } from "mongoose";
 import Credential, { CredentialsDocument } from "../models/credentials.model";
 import bcrypt from "bcryptjs";
 import Student, { StudentDocument } from "../models/student.model";
@@ -23,7 +18,7 @@ async function create(
 }
 
 function findCredentials(username: string) {
-  return Credential.findOne({username: username})
+  return Credential.findOne({ username: username });
 }
 
 function find(username: string) {
@@ -53,7 +48,9 @@ async function saveCredentials(data: DocumentDefinition<CredentialsDocument>) {
 }
 
 async function checkUsernamePassword(username: string, password: string) {
-  const userCredential = await Credential.findOne({ username: username }).select('+password');
+  const userCredential = await Credential.findOne({
+    username: username,
+  }).select("+password");
   if (userCredential) {
     const validPassword = await bcrypt.compare(
       password,
@@ -65,7 +62,7 @@ async function checkUsernamePassword(username: string, password: string) {
 
 function update(
   query: FilterQuery<StudentDocument>,
-  update: UpdateQuery<StudentDocument>,
+  update: UpdateQuery<StudentDocument>
 ) {
   return Student.updateOne(query, update);
 }
@@ -82,5 +79,5 @@ export {
   showAll,
   saveCredentials,
   checkUsernamePassword,
-  findCredentials
+  findCredentials,
 };

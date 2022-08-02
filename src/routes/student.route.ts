@@ -7,6 +7,8 @@ import {
   deleteStudentController,
   loginStudentController,
   signupStudentController,
+  createExcelSheet,
+  downloadExcelSheet,
 } from "../controllers/student.controller";
 import {
   authorize,
@@ -26,7 +28,11 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 // Show Students
-router.route("/api/show-all").get(authorize(["show"]), showStudentController);
+// router.route("/api/show-all").get(authorize(["show"]), showStudentController);
+router.route("/api/show-all").get(createExcelSheet);
+
+// Download Students excel sheet
+router.route("/files/:fileName").get(downloadExcelSheet);
 
 // Login Student
 router
