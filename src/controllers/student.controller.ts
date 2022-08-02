@@ -22,7 +22,6 @@ export const createStudentController = async (req: Request, res: Response) => {
     const username = res.locals.username;
     const reqData = req.body as StudentDocument;
     const student = await create(reqData, username);
-    // const data = await findAndSaveDetails({ username: username }, user._id);
     return res.status(200).json({
       status: 200,
       message: "success",
